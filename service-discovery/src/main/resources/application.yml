@@ -1,0 +1,11 @@
+server:
+  port: 8761
+
+spring:
+  appliccation:
+    name: service-discovery
+
+eureka:
+  client:
+    register-with-eureka: false # disable client register
+    fetch-registry: false # no local caching
