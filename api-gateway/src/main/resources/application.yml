@@ -19,6 +19,25 @@ spring:
           predicates:
             - Path=/user-service/**
 
+      globalcors: # DO NOT USE WebMvcConfig since it's not compatible
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allow-credentials: true # Allow cookies inside a request header
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - DELETE
+              - OPTIONS
+
 management:
   endpoints:
     web:
