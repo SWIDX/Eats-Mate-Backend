@@ -18,6 +18,10 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
+        - id: map-service
+          uri: lb://MAP-SERVICE
+          predicates:
+            - Path=/map-service/**
 
 management:
   endpoints:
