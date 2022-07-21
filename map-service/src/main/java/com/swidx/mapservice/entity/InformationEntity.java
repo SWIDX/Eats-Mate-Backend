@@ -20,23 +20,43 @@ public class InformationEntity {
     private String name;
 
     @Column
-    private String type;
+    private String gubun;
+
+    @Column
+    private String gugun;
 
     @Column
     private String address;
 
-    @Column(precision = 50,scale = 30)
+    @Column(precision = 16,scale = 14)
     private BigDecimal lat;
 
-    @Column(precision = 50,scale = 30)
+    @Column(precision = 17,scale = 14)
     private BigDecimal lng;
 
-    public InformationEntity(String name,String type,String address,BigDecimal lat,BigDecimal lng){
+    @Column
+    private String cntct;
+
+    @Column
+    private String homepage_url;
+
+    @Column
+    private String usage_of_week_and_time;
+
+
+
+    public InformationEntity(String name,String gubun,String address,BigDecimal lat,
+                             BigDecimal lng,String cntct,String gugun,String homepage_url,
+                             String usage_of_week_and_time){
         this.name = name;
-        this.type = type;
+        this.gubun = gubun;
         this.address = address;
         this.lng = lng;
         this.lat = lat;
+        this.cntct = cntct;
+        this.gugun = gugun;
+        this.homepage_url = homepage_url;
+        this.usage_of_week_and_time = usage_of_week_and_time;
     }
 
 }
