@@ -51,7 +51,7 @@ public class LoginService {
         // 변동: mariadb 업데이트
         if (!name.equals(entity.getName()) || !profileImageUrl.equals(entity.getProfileImageUrl())) {
             System.out.println("\n*** LoginService: Update User ***");
-            entity.update(userinfo);
+            db.save(new User(userinfo));
         }
 
         LoginResponseDto loginbody = new LoginResponseDto(
