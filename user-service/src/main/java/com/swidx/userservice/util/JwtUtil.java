@@ -52,6 +52,15 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
+    // Identify token expiration date from the received token
+    public Long getTokenExpirationTime(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration().getTime();
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
