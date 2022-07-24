@@ -10,5 +10,5 @@ public class LoginResponseDto {
     private String email;
     private String profileImageUrl;
     private String accessToken;
-    private String refreshToken;
+    private Long expirationTime;
 }
