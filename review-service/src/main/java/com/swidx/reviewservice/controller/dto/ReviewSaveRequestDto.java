@@ -13,26 +13,24 @@ import java.time.LocalDateTime;
 
 public class ReviewSaveRequestDto {
 
-    private static Long idx;
     private static String content;
+
+    private static String category;
+
     private static LocalDateTime createdBy;
+
     private static String image;
 
-    @Builder
-    public ReviewSaveRequestDto(Long idx, String content, LocalDateTime createdBy, String image){
-        this.idx = idx;
-        this.content = content;
-        this.createdBy = createdBy;
-        this.image = image;
-    }
+    private static Long rate;
 
     @Builder
     public static Review toEntity(){
         return Review.builder()
-                .idx(idx)
                 .content(content)
+                .category(category)
                 .createdBy(createdBy)
                 .image(image)
+                .rate(rate)
                 .build();
     }
 }

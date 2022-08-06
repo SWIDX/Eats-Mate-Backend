@@ -26,9 +26,9 @@ public class ReviewApiController {
     }
 
     //read
-    @GetMapping(value = "/{idx}")
-    public ResponseEntity<ReviewResponseDto> readReview(@PathVariable Long idx){
-        return new ResponseEntity<>(reviewService.readOne(idx),HttpStatus.OK);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ReviewResponseDto> readReview(@PathVariable Long id){
+        return new ResponseEntity<>(reviewService.readOne(id),HttpStatus.OK);
     }
 
     @GetMapping()
@@ -39,15 +39,15 @@ public class ReviewApiController {
 
 
     //update
-    @PutMapping("/{idx}")
-    public ResponseEntity updateReview(@PathVariable Long idx, @RequestBody ReviewUpdateRequestDto requestDto){
-        return new ResponseEntity<>(reviewService.update(idx, requestDto),HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity updateReview(@PathVariable Long id, @RequestBody ReviewUpdateRequestDto requestDto){
+        return new ResponseEntity<>(reviewService.update(id, requestDto),HttpStatus.OK);
     }
 
     //delete
-    @DeleteMapping("/{idx}")
-    public ResponseEntity deleteReview(@PathVariable Long idx){
-        reviewService.delete(idx);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteReview(@PathVariable Long id){
+        reviewService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

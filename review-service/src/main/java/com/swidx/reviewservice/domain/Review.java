@@ -12,10 +12,13 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx; //글 순서
+    private Long id; //글 순서
 
     @Column
     private String content;
+
+    @Column
+    private String category;
 
     @Column
     private LocalDateTime createdBy;
@@ -23,26 +26,48 @@ public class Review {
     @Column
     private String image;
 
+    @Column
+    private Long rate;
+
 
 
     @Builder
-    public Review(Long idx, String content, LocalDateTime createdBy, String image){
-        this.idx = idx;
+    public Review(Long id, String content, String category, LocalDateTime createdBy, String image, Long rate){
+        this.id = id;
         this.content = content;
+        this.category = category;
         this.createdBy = createdBy;
         this.image = image;
+        this.rate = rate;
     }
 
-    public void update(String content, String image) {
+    public void update(String content, String category, String image, Long rate) {
         this.content = content;
+        this.category = category;
         this.image = image;
+        this.rate = rate;
     }
 
-    public Long getidx() {
-        return this.idx;
+    public Long getid() {
+        return this.id;
     }
 
     public String getContent() {
         return this.content;
+    }
+    public String getCategory(){
+        return this.category;
+    }
+
+    public LocalDateTime getCreatedBy(){
+        return this.createdBy;
+    }
+
+    public String getImage(){
+        return this.image;
+    }
+
+    public Long getRate(){
+        return this.rate;
     }
 }
