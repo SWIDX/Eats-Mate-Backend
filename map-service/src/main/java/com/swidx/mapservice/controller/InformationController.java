@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.awt.*;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,20 @@ public class InformationController {
     }
 
     @GetMapping("information/findByName/{name}")
-    public List<InformationEntity> findByNameLike(@PathVariable String name){
+    public InformationEntity findByNameLike(@PathVariable String name){
          List<InformationEntity> result = informationRepository.findByNameLike("%"+name+"%");
-         return result;
+         if(result.isEmpty()){
+             return null;
+         }else {
+             return result.get(0);
+         }
+    }
+
+    @GetMapping("information/findByNearby")
+    public List<InformationEntity> findByNearby(@RequestParam("lat") Double lat,
+                                                @RequestParam("lng") Double lng,
+                                                @RequestParam("dist") Double dist){
+        List<InformationEntity> result = informationRepository.findByNearby(lat,lng,dist);
+        return result;
     }
 }
