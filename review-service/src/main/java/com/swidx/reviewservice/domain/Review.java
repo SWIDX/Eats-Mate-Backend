@@ -18,24 +18,33 @@ public class Review {
     private String content;
 
     @Column
+    private String category;
+
+    @Column
     private LocalDateTime createdBy;
 
     @Column
     private String image;
 
+    @Column
+    private Long rate;
 
 
     @Builder
-    public Review(Long id, String content, LocalDateTime createdBy, String image){
+    public Review(Long id, String content, String category, LocalDateTime createdBy, String image, Long rate){
         this.id = id;
         this.content = content;
+        this.category = category;
         this.createdBy = createdBy;
         this.image = image;
+        this.rate = rate;
     }
 
-    public void update(String content, String image) {
+    public void update(String content, String category, String image, String rate) {
         this.content = content;
+        this.category = category;
         this.image = image;
+        this.rate = rate;
     }
 
     public Long getid() {
@@ -45,4 +54,21 @@ public class Review {
     public String getContent() {
         return this.content;
     }
+    
+    public String getCategory(){
+        return this.category;
+    }
+
+    public LocalDateTime getCreatedBy(){
+        return this.createdBy;
+    }
+
+    public String getImage(){
+        return this.image;
+    }
+
+    public Long getRate(){
+        return this.rate;
+    }
 }
+
