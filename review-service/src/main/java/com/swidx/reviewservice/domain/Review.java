@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx; //글 순서
+    private Long id; //글 순서
 
     @Column
     private String content;
@@ -26,8 +26,8 @@ public class Review {
 
 
     @Builder
-    public Review(Long idx, String content, LocalDateTime createdBy, String image){
-        this.idx = idx;
+    public Review(Long id, String content, LocalDateTime createdBy, String image){
+        this.id = id;
         this.content = content;
         this.createdBy = createdBy;
         this.image = image;
@@ -38,8 +38,8 @@ public class Review {
         this.image = image;
     }
 
-    public Long getidx() {
-        return this.idx;
+    public Long getid() {
+        return this.id;
     }
 
     public String getContent() {
