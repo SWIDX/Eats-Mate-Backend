@@ -27,8 +27,8 @@ public class ReviewService {
     }
 
     //read
-    public ReviewResponseDto readOne(Long idx){
-        Review review = reviewRepository.findById(idx).orElse(null);
+    public ReviewResponseDto readOne(Long id){
+        Review review = reviewRepository.findById(id).orElse(null);
         return new ReviewResponseDto(review);
     }
 
@@ -39,14 +39,14 @@ public class ReviewService {
 
     //update
     public Long update(Long idx, ReviewUpdateRequestDto requestDto){
-        Review review = reviewRepository.findById(idx).orElseThrow(() -> new IllegalArgumentException("일치하는 순서가 없습니다"));
-        review.update(requestDto.getContent(), requestDto.getImage());
-        return idx;
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("일치하는 순서가 없습니다"));
+        review.update(requestDto.getContent(), requestDto.getCategory(), requestDto.getImage(), requestDto.getRate());
+        return id;
     }
 
     //delete
-    public void delete(Long idx){
-        reviewRepository.deleteById(idx);
+    public void delete(Long id){
+        reviewRepository.deleteById(id);
     }
 
 }
