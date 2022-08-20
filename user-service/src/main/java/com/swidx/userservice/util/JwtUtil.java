@@ -43,8 +43,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Identify user id from the received token
-    public String getTokenOwnerId(String token) {
+    // Identify user email from the received token
+    public String getTokenOwner(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
