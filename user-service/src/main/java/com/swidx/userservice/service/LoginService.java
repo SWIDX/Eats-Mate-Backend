@@ -30,17 +30,17 @@ public class LoginService {
 
     public ResponseEntity<LoginResponseDto> registerUser(KakaoUserDto userinfo) {
         // jwt 발급
-        String id = userinfo.getId();
+        String email = userinfo.getEmail();
         String name = userinfo.getName();
         String profileImageUrl = userinfo.getProfileImageUrl();
-        String accessToken = jwtUtil.generateAccessToken(id, 1000L * 60 * 30); // 30 min
+        String accessToken = jwtUtil.generateAccessToken(email, 1000L * 60 * 30); // 30 min
         String refreshToken = jwtUtil.generateRefreshToken(1000L * 60 * 60 * 6); // 6 hr
 
         // redis 등록
-        redis.save(new Token(refreshToken, id)); // String -> Token Entity
+        redis.save(new Token(refreshToken, email)); // String -> Token Entity
 
         // 신규: mariadb 등록
-        User entity = db.findById(id).orElseGet( // orElse()는 empty 여부 관계 없이 인자 내 함수를 실행하므로 orElseGet() 사용
+        User entity = db.findById(email).orElseGet( // orElse()는 empty 여부 관계 없이 인자 내 함수를 실행하므로 orElseGet() 사용
                 () -> addUserdata(userinfo)
         );
 
@@ -56,7 +56,7 @@ public class LoginService {
 
         LoginResponseDto loginbody = new LoginResponseDto(
                 name,
-                userinfo.getEmail(),
+                email,
                 profileImageUrl,
                 accessToken,
                 jwtUtil.getTokenExpirationTime(accessToken)
@@ -73,16 +73,16 @@ public class LoginService {
 
     public ResponseEntity<LoginResponseDto> getPrimaryToken(KakaoUserDto userinfo, String rt) {
         System.out.println("\n*** LoginService: Secondary User Login ***");
-        String id = userinfo.getId();
+        String email = userinfo.getEmail();
         String name = userinfo.getName();
         String profileImageUrl = userinfo.getProfileImageUrl();
-        String accessToken = jwtUtil.generateAccessToken(id, 1000L * 60 * 30); // 30 min
+        String accessToken = jwtUtil.generateAccessToken(email, 1000L * 60 * 30); // 30 min
         Token refreshToken = redis.findById(rt).orElseThrow(
                 () -> new IllegalArgumentException("\n*** LoginService(Secondary): Invalid Refresh Token ***")
         );
 
         // mariadb에 등록된 사용자 정보 가져오기
-        User entity = db.findById(id).orElseThrow(
+        User entity = db.findById(email).orElseThrow(
                 () -> new IllegalArgumentException("\n*** LoginService(Secondary): Invalid User ID ***")
         );
 
@@ -94,7 +94,7 @@ public class LoginService {
 
         LoginResponseDto loginbody = new LoginResponseDto(
                 name,
-                userinfo.getEmail(),
+                email,
                 profileImageUrl,
                 accessToken,
                 jwtUtil.getTokenExpirationTime(accessToken)

@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user-service/auth/**").permitAll()
+                .antMatchers("/user-service/auth/**","/user-service/user/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
