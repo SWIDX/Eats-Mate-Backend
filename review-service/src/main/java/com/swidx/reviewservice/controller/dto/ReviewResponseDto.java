@@ -15,7 +15,7 @@ public class ReviewResponseDto {
     
 
     public ReviewResponseDto(Review entity){
-        this.id=entity.getid();
+        this.id = entity.getId();
         this.placeName = entity.getPlaceName();
         this.email = entity.getEmail();
         this.content = entity.getContent();
