@@ -19,7 +19,7 @@ public class TourInformationEntity implements Serializable {
     private TourId tourId;
 
     @Column
-    private String title;
+    private String name;
 
     @Column
     private String gubun;
@@ -49,11 +49,11 @@ public class TourInformationEntity implements Serializable {
     private BigDecimal lng;
 
 
-    public TourInformationEntity(TourId tourId,String title,String gubun,
+    public TourInformationEntity(TourId tourId,String name,String gubun,
                                  Integer read_count,BigDecimal lat,BigDecimal lng,String cntct,
                                  String update_time,String address,String represent_image,String thumbnail_image){
         this.tourId = tourId;
-        this.title = title;
+        this.name = name;
         this.gubun = gubun;
         this.read_count = read_count;
         this.lat = lat;

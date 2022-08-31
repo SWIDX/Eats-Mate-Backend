@@ -19,15 +19,25 @@ import java.util.Optional;
 public class TourInformationController {
     private final TourInformationRepository tourInformationRepository;
 
-    @GetMapping("tour-information/findByTitle")
-    public TourInformationEntity findByTitle(@RequestParam("title") String title){
+    @GetMapping("tour-information/findByName")
+    public TourInformationEntity findByName(@RequestParam("name") String name){
 
-        TourInformationEntity result = tourInformationRepository.findByTitle(title);
+        TourInformationEntity result = tourInformationRepository.findByName(name);
         return result;
 
     }
 
+    @GetMapping("tour-information/findByName/{name}")
+    public List<TourInformationEntity> findByNameLike(@PathVariable String name){
+        List<TourInformationEntity> result = tourInformationRepository.findByNameLike("%"+name+"%");
+        if(result.isEmpty()){
+            return null;
+        } else {
+            return result;
+        }
+    }
 
+    // findByGubun
 
 
 }

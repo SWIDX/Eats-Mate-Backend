@@ -21,9 +21,9 @@ public class TourInformationRepositoryTest {
     public void title로_정보찾기(){
         String title = "구암공원";
 
-        TourInformationEntity response = tourInformationRepository.findByTitle(title);
+        TourInformationEntity response = tourInformationRepository.findByName(title);
         System.out.println(response.getTourId());
-        System.out.println(response.getTitle());
+        System.out.println(response.getName());
         System.out.println(response.getGubun());
 
     }
@@ -38,7 +38,7 @@ public class TourInformationRepositoryTest {
 
         for(TourInformationEntity info : tourInformationEntityList){
             System.out.println(info.getTourId());
-            System.out.println(info.getTitle());
+            System.out.println(info.getName());
         }
     }
 }
