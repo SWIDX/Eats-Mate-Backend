@@ -14,9 +14,11 @@ import java.util.List;
 @EnableJpaRepositories
 @Repository
 public interface TourInformationRepository extends JpaRepository<TourInformationEntity, TourId> {
-    TourInformationEntity findByTitle(String title);
+    TourInformationEntity findByName(String name);
 
     //1km = 10
     @Query(value="SELECT *,(6371*acos(cos(radians(?1))*cos(radians(lat))*cos(radians(lng) - radians(?2)) + sin(radians(?1))*sin(radians(lat)))) AS distance FROM tour_information HAVING distance <= ?3*10 and distance > 0 ORDER BY distance limit 0,10",nativeQuery = true)
     List<TourInformationEntity> findByNearby(double target_lat, double target_lng, double dist);
+
+    List<TourInformationEntity> findByNameLike(String name);
 }
