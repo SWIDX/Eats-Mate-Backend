@@ -1,6 +1,6 @@
 package com.swidx.userservice.controller;
 
-import com.swidx.userservice.feign.client.FeignJwtValidationService;
+// import com.swidx.userservice.feign.client.FeignJwtValidationService;
 import com.swidx.userservice.service.LikeService;
 import com.swidx.userservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
