@@ -39,5 +39,14 @@ public class TourInformationController {
 
     // findByGubun
 
+    @GetMapping("tour-information/findByNearby")
+    public List<TourInformationEntity> findByNearby(@RequestParam("lat") Double lat,
+                                                @RequestParam("lng") Double lng,
+                                                @RequestParam("dist") Double dist){
+        List<TourInformationEntity> result = tourInformationRepository.findByNearby(lat,lng,dist);
+        return result;
+    }
+
+
 
 }
