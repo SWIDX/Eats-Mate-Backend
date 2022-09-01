@@ -9,44 +9,42 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-
 public class ReviewSaveRequestDto {
 
-    private static Long id;
-    private static String placeName;
-    private static String email;
-    private static String content;
-    private static String category;
-    private static String createdBy;
-    private static String image;
-    private static Integer rate;
-    private static Integer recommend;
+    private String placeName;
+    private String content;
+    private String category;
+    private String image;
+    private String createdBy;
+    private Integer rate;
 
     @Builder
-    public ReviewSaveRequestDto(Long id, String placeName, String email, String content, String category, String createdBy, String image, Integer rate, Integer recommend){
-        this.id = id;
+    public ReviewSaveRequestDto(String placeName,
+                                String content,
+                                String category,
+                                String image,
+                                String createdBy,
+                                Integer rate
+    ){
         this.placeName = placeName;
-        this.email = email;
         this.content = content;
         this.category = category;
-        this.createdBy = createdBy;
         this.image = image;
+        this.createdBy = createdBy;
         this.rate = rate;
-        this.recommend = recommend;
     }
 
     @Builder
-    public static Review toEntity(){
+    public static Review toEntity(String email, ReviewSaveRequestDto dto){
         return Review.builder()
-                .id(id)
-                .placeName(placeName)
+                .placeName(dto.getPlaceName())
                 .email(email)
-                .content(content)
-                .category(category)
-                .createdBy(createdBy)
-                .image(image)
-                .rate(rate)
-                .recommend(recommend)
+                .content(dto.getContent())
+                .category(dto.getCategory())
+                .image(dto.getImage())
+                .createdBy(dto.getCreatedBy())
+                .rate(dto.getRate())
+                .recommend(0)
                 .build();
     }
 }
