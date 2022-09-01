@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class ReissueService {
 
     public ResponseEntity<ReissueResponseDto> reissueJWT(String rt) {
         Token refreshToken = redis.findById(rt).orElseThrow(
-                () -> new AccessDeniedException("\n*** ReissueService: Invalid Refresh Token ***")
+                () -> new RuntimeException("\n*** ReissueService: Invalid Refresh Token ***")
         );
         String id = refreshToken.getId();
 

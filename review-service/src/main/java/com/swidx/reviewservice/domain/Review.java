@@ -1,48 +1,73 @@
 package com.swidx.reviewservice.domain;
 
 
+import com.swidx.reviewservice.controller.dto.ReviewUpdateRequestDto;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx; //글 순서
+    private Long id; //글 순서
+
+    @Column
+    private String placeName;
+
+    @Column
+    private String email;
 
     @Column
     private String content;
 
     @Column
-    private LocalDateTime createdBy;
+    private String category;
+
+    @Column
+    private String createdBy;
 
     @Column
     private String image;
 
+    @Column
+    private Integer rate;
+
+    @Column
+    private Integer recommend;
 
 
     @Builder
-    public Review(Long idx, String content, LocalDateTime createdBy, String image){
-        this.idx = idx;
+    public Review(
+            String placeName,
+            String email,
+            String content,
+            String category,
+            String createdBy,
+            String image,
+            Integer rate,
+            Integer recommend
+    ){
+        this.placeName = placeName;
+        this.email = email;
         this.content = content;
+        this.category = category;
         this.createdBy = createdBy;
         this.image = image;
+        this.rate = rate;
+        this.recommend = recommend;
     }
 
-    public void update(String content, String image) {
-        this.content = content;
-        this.image = image;
+    public void update(String email, ReviewUpdateRequestDto dto) {
+        this.email = email;
+        this.content = dto.getContent();
+        this.image = dto.getImage();
+        this.rate = dto.getRate();
     }
 
-    public Long getidx() {
-        return this.idx;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
 }
+

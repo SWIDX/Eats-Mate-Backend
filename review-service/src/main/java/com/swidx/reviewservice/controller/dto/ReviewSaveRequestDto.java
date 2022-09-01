@@ -6,33 +6,45 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-
 public class ReviewSaveRequestDto {
 
-    private static Long idx;
-    private static String content;
-    private static LocalDateTime createdBy;
-    private static String image;
+    private String placeName;
+    private String content;
+    private String category;
+    private String image;
+    private String createdBy;
+    private Integer rate;
 
     @Builder
-    public ReviewSaveRequestDto(Long idx, String content, LocalDateTime createdBy, String image){
-        this.idx = idx;
+    public ReviewSaveRequestDto(String placeName,
+                                String content,
+                                String category,
+                                String image,
+                                String createdBy,
+                                Integer rate
+    ){
+        this.placeName = placeName;
         this.content = content;
-        this.createdBy = createdBy;
+        this.category = category;
         this.image = image;
+        this.createdBy = createdBy;
+        this.rate = rate;
     }
 
     @Builder
-    public static Review toEntity(){
+    public static Review toEntity(String email, ReviewSaveRequestDto dto){
         return Review.builder()
-                .idx(idx)
-                .content(content)
-                .createdBy(createdBy)
-                .image(image)
+                .placeName(dto.getPlaceName())
+                .email(email)
+                .content(dto.getContent())
+                .category(dto.getCategory())
+                .image(dto.getImage())
+                .createdBy(dto.getCreatedBy())
+                .rate(dto.getRate())
+                .recommend(0)
                 .build();
     }
 }

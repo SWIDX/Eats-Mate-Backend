@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: none
+    show-sql: 'true'
+  application:
+    name: map-service
+  datasource:
+    password: ###password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ###id
+    url: ###url
+eureka:
+  client:
+    register-with-eureka: 'true'
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: 'true'
+server:
+  port: '9001'

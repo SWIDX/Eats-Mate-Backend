@@ -1,21 +1,18 @@
 package com.swidx.reviewservice.controller.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReviewUpdateRequestDto {
 
+    private Long id;
     private String content;
     private String image;
-
-
-    @Builder
-    public ReviewUpdateRequestDto(String content, String image){
-        this.content = content;
-        this.image = image;
-    }
+    private Integer rate;
 }

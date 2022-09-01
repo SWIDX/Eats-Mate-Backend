@@ -15,23 +15,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/review")
+@RequestMapping("review-service")
 public class ReviewApiController {
     private final ReviewService reviewService;
 
     //create
-    @PostMapping()
-    public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewSaveRequestDto requestDto){
-        return new ResponseEntity<>(reviewService.save(requestDto), HttpStatus.OK);
+    @PostMapping("/review")
+    public ResponseEntity createReview(@RequestHeader("Authorization") String authorization,
+                                       @RequestBody ReviewSaveRequestDto requestDto){
+        String accessToken = authorization.replace("Bearer ", "");
+        return reviewService.save(accessToken, requestDto);
     }
 
     //read
-    @GetMapping(value = "/{idx}")
-    public ResponseEntity<ReviewResponseDto> readReview(@PathVariable Long idx){
-        return new ResponseEntity<>(reviewService.readOne(idx),HttpStatus.OK);
+    @GetMapping("/review/{id}")
+    public ResponseEntity<ReviewResponseDto> readReview(@PathVariable Long id){
+        return new ResponseEntity<>(reviewService.readOne(id),HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/review")
     public List<Review> readAllReview(){
         List<Review> listReview = reviewService.readAll();
         return listReview;
@@ -39,15 +41,15 @@ public class ReviewApiController {
 
 
     //update
-    @PutMapping("/{idx}")
-    public ResponseEntity updateReview(@PathVariable Long idx, @RequestBody ReviewUpdateRequestDto requestDto){
-        return new ResponseEntity<>(reviewService.update(idx, requestDto),HttpStatus.OK);
+    @PutMapping("/review/{id}")
+    public void updateReview(@PathVariable Long id, @RequestBody ReviewUpdateRequestDto requestDto){
+        reviewService.update(id, requestDto);
     }
 
     //delete
-    @DeleteMapping("/{idx}")
-    public ResponseEntity deleteReview(@PathVariable Long idx){
-        reviewService.delete(idx);
+    @DeleteMapping("review/{id}")
+    public ResponseEntity deleteReview(@PathVariable Long id){
+        reviewService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
