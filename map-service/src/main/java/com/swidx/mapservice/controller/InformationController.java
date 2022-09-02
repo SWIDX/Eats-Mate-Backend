@@ -20,11 +20,6 @@ public class InformationController {
         return informationRepository.findAll();
     }
 
-    @GetMapping("information/findById/{id}")
-    public Optional<InformationEntity> findById(@PathVariable Integer id){
-        return informationRepository.findById(id);
-    }
-
     @GetMapping("information/findByName/{name}")
     public List<InformationEntity> findByNameLike(@PathVariable String name){
          List<InformationEntity> result = informationRepository.findByNameLike("%"+name+"%");
@@ -42,4 +37,6 @@ public class InformationController {
         List<InformationEntity> result = informationRepository.findByNearby(lat,lng,dist);
         return result;
     }
+
+
 }
