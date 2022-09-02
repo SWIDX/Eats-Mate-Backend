@@ -5,6 +5,7 @@ import com.swidx.reviewservice.domain.Review;
 public class ReviewResponseDto {
     final Long id;
     final String placeName;
+    final String gugun;
     final String email;
     final String content;
     final String category;
@@ -17,6 +18,7 @@ public class ReviewResponseDto {
     public ReviewResponseDto(Review entity){
         this.id = entity.getId();
         this.placeName = entity.getPlaceName();
+        this.gugun = entity.getGugun();
         this.email = entity.getEmail();
         this.content = entity.getContent();
         this.category = entity.getCategory();

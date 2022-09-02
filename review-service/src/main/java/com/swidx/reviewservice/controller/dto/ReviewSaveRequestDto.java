@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ReviewSaveRequestDto {
 
     private String placeName;
+    private String gugun;
     private String content;
     private String category;
     private String image;
@@ -20,6 +21,7 @@ public class ReviewSaveRequestDto {
 
     @Builder
     public ReviewSaveRequestDto(String placeName,
+                                String gugun,
                                 String content,
                                 String category,
                                 String image,
@@ -27,6 +29,7 @@ public class ReviewSaveRequestDto {
                                 Integer rate
     ){
         this.placeName = placeName;
+        this.gugun = gugun;
         this.content = content;
         this.category = category;
         this.image = image;
@@ -38,6 +41,7 @@ public class ReviewSaveRequestDto {
     public static Review toEntity(String email, ReviewSaveRequestDto dto){
         return Review.builder()
                 .placeName(dto.getPlaceName())
+                .gugun(dto.getGugun())
                 .email(email)
                 .content(dto.getContent())
                 .category(dto.getCategory())

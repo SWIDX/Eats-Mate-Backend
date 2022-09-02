@@ -20,6 +20,9 @@ public class Review {
     private String placeName;
 
     @Column
+    private String gugun;
+
+    @Column
     private String email;
 
     @Column
@@ -44,6 +47,7 @@ public class Review {
     @Builder
     public Review(
             String placeName,
+            String gugun,
             String email,
             String content,
             String category,
@@ -53,6 +57,7 @@ public class Review {
             Integer recommend
     ){
         this.placeName = placeName;
+        this.gugun = gugun;
         this.email = email;
         this.content = content;
         this.category = category;
