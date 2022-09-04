@@ -26,9 +26,9 @@ public interface TourInformationRepository extends JpaRepository<TourInformation
 
     @Query(value ="select id, name, gubun, lat, lng, address, '음식점' as type from map_service.information " +
             "where (name like %:text% or address like %:text% or gugun like %:text%) " +
-            "union select content_id as id, name, gubun, lat, lng, address, '관광지' as type " +
+            "union select content_id as id, name, gubun, lat, lng, address, '여행지' as type " +
             "from map_service.tour_information where (name like %:text% or address " +
-            "like %:text% ) ORDER BY name asc ", countQuery = "select id, name, gubun, address, '음식점' as type from map_service.information where (name like %:text% or address like %:text% or gugun like %:text%) union select content_id as id, name, gubun, address, '관광지' as type from map_service.tour_information where (name like %:text% or address like %:text% ) ORDER BY name asc ",nativeQuery = true)
+            "like %:text% ) ORDER BY name asc ", countQuery = "select id, name, gubun, address, '음식점' as type from map_service.information where (name like %:text% or address like %:text% or gugun like %:text%) union select content_id as id, name, gubun, address, '여행지' as type from map_service.tour_information where (name like %:text% or address like %:text% ) ORDER BY name asc ",nativeQuery = true)
     List<UnionInterface> getSearchUnionInformation(String text);
 
     @Query(value="select * from tour_information where content_id = :contentsId",nativeQuery = true)
