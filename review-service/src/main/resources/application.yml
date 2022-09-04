@@ -2,6 +2,10 @@ server:
   port: 9002
 
 spring:
+  profiles:
+    include:
+      - aws
+
   jpa:
     hibernate:
       ddl-auto: none # MUST SET none WHEN ON PRODUCTION STAGE
@@ -9,6 +13,12 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB
+      max-request-size: 15MB
 
   application:
     name: review-service
