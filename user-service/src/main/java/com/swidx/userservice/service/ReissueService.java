@@ -1,5 +1,8 @@
 package com.swidx.userservice.service;
 
+import com.swidx.userservice.domain.user.User;
+import com.swidx.userservice.domain.user.UserRepository;
+import com.swidx.userservice.dto.LoginResponseDto;
 import com.swidx.userservice.dto.ReissueResponseDto;
 import com.swidx.userservice.redis.Token;
 import com.swidx.userservice.redis.TokenRedisRepository;
@@ -16,23 +19,37 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReissueService {
     private final JwtUtil jwtUtil;
+    private final UserRepository db;
     private final TokenRedisRepository redis;
     private final CookieUtil cookieUtil;
 
-    public ResponseEntity<ReissueResponseDto> reissueJWT(String rt) {
+    public ResponseEntity<LoginResponseDto> reissueJWT(String rt) {
+        System.out.println("\n*** ReissueService: Reissue User JWT ***");
+        System.out.println("refreshToken: " + rt);
         Token refreshToken = redis.findById(rt).orElseThrow(
                 () -> new RuntimeException("\n*** ReissueService: Invalid Refresh Token ***")
         );
-        String id = refreshToken.getId();
+        String email = refreshToken.getId();
+        User entity = db.findById(email).orElseThrow( // orElse()는 empty 여부 관계 없이 인자 내 함수를 실행하므로 orElseGet() 사용
+                () -> new RuntimeException("\n*** ReissueService: Token Owner Is Not Our User ***")
+        );
 
-        String newAccessToken = jwtUtil.generateAccessToken(id, 1000L * 60 * 30); // 30 min
-        String newRefreshToken = jwtUtil.generateRefreshToken(1000L * 60 * 60 * 6); // 6 hr
+        String newAccessToken = jwtUtil.generateAccessToken(email, 1000L * 60 * 30); // 30 min
+        String newRefreshToken = jwtUtil.generateRefreshToken(1000L * 60 * 60 * 1); // 6 hr
 
         // redis 업데이트
         redis.deleteById(rt); // invalidate previous token
-        redis.save(new Token(newRefreshToken, id)); // String -> Token Entity
+        redis.save(new Token(newRefreshToken, email)); // String -> Token Entity
 
-        ReissueResponseDto reissueBody = new ReissueResponseDto(
+//        ReissueResponseDto reissueBody = new ReissueResponseDto(
+//                newAccessToken,
+//                jwtUtil.getTokenExpirationTime(newAccessToken)
+//        );
+
+        LoginResponseDto reissueBody = new LoginResponseDto(
+                entity.getName(),
+                entity.getEmail(),
+                entity.getProfileImageUrl(),
                 newAccessToken,
                 jwtUtil.getTokenExpirationTime(newAccessToken)
         );
