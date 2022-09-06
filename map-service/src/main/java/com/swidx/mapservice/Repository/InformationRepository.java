@@ -4,8 +4,10 @@ import com.swidx.mapservice.entity.InformationEntity;
 import com.swidx.mapservice.entity.TourInformationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -18,4 +20,6 @@ public interface InformationRepository extends JpaRepository<InformationEntity,I
 
     @Query(value = "select *,'음식점' as type from information where (name like %:text% or address like %:text% )",nativeQuery = true)
     List<InformationEntity> getSearchRestInfo(String text);
+
+    InformationEntity findByName(String name);
 }
