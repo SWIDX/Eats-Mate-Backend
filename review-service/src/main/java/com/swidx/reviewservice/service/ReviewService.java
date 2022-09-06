@@ -1,10 +1,12 @@
 package com.swidx.reviewservice.service;
 
+import com.swidx.reviewservice.controller.dto.FeignUserInfoResponseDto;
 import com.swidx.reviewservice.controller.dto.ReviewResponseDto;
 import com.swidx.reviewservice.controller.dto.ReviewSaveRequestDto;
 import com.swidx.reviewservice.controller.dto.ReviewUpdateRequestDto;
 import com.swidx.reviewservice.domain.Review;
 import com.swidx.reviewservice.feign.client.JwtValidationClient;
+import com.swidx.reviewservice.feign.client.ReviewUserInfoClient;
 import com.swidx.reviewservice.image.S3Uploader;
 import com.swidx.reviewservice.repository.ReviewRepository;
 import feign.FeignException;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ReviewService {
     @Autowired
     private final JwtValidationClient jwtClient;
+    private final ReviewUserInfoClient userInfoClient;
     private final ReviewRepository reviewRepository;
     private final S3Uploader s3Uploader;
 
@@ -70,14 +73,35 @@ public class ReviewService {
     }
 
     //read
-    public ReviewResponseDto readOne(Long id){
-        Review review = reviewRepository.findById(id).orElse(null);
-        return new ReviewResponseDto(review);
-    }
+//    public ReviewResponseDto readOne(Long id){
+//        Review review = reviewRepository.findById(id).orElse(null);
+//        return new ReviewResponseDto(review);
+//    }
 
-    public List<Review> readAll(){
-        List<Review> listReview = reviewRepository.findAll();
-        return listReview;
+    // detail, review 전용 (main page용 아님)
+    public ResponseEntity<List<ReviewResponseDto>> readMultiple(String placeName, Long amount){
+        List<Review> reviewList = new ArrayList<Review>();
+
+        if (amount == 0) {
+            reviewList = reviewRepository.findByPlaceNameOrderByCreatedByDesc(placeName);
+        }
+        else if (amount == 2) {
+            reviewList = reviewRepository.findTop2ByPlaceNameOrderByCreatedByDesc(placeName);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<ReviewResponseDto> resList = new ArrayList<ReviewResponseDto>();
+        
+        for (Review review : reviewList) {
+            // feign으로 리뷰 작성자 데이터 가져오기
+            FeignUserInfoResponseDto dto = userInfoClient.getUserNameAndProfileImgUrl(review.getEmail());
+            resList.add(new ReviewResponseDto(dto.getUsername(), dto.getUserProfileImgUrl(), review));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(resList);
     }
 
     //update

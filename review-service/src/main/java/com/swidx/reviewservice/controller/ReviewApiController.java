@@ -32,17 +32,10 @@ public class ReviewApiController {
     }
 
     //read
-    @GetMapping("/review/{id}")
-    public ResponseEntity<ReviewResponseDto> readReview(@PathVariable Long id){
-        return new ResponseEntity<>(reviewService.readOne(id),HttpStatus.OK);
+    @GetMapping("/review/{placeName}/{amount}") // -1 for all, 2 for top 2
+    public ResponseEntity<List<ReviewResponseDto>> readMultiple(@PathVariable String placeName, @PathVariable Long amount){
+        return reviewService.readMultiple(placeName, amount);
     }
-
-    @GetMapping("/review")
-    public List<Review> readAllReview(){
-        List<Review> listReview = reviewService.readAll();
-        return listReview;
-    }
-
 
     //update
     @PutMapping("/review/{id}")
