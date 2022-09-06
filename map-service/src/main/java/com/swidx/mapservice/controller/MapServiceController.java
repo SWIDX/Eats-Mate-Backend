@@ -1,10 +1,13 @@
 package com.swidx.mapservice.controller;
 
+import com.swidx.mapservice.entity.InformationEntity;
 import com.swidx.mapservice.entity.TourInformationEntity;
 import com.swidx.mapservice.entity.UnionInterface;
 import com.swidx.mapservice.service.InformationService;
 import com.swidx.mapservice.service.TourInformationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,5 +54,12 @@ public class MapServiceController {
         }
     }
 
+    @GetMapping("findByName")
+    public ResponseEntity<InformationEntity> findByName(@RequestParam("name") String name){
+        InformationEntity res = informationService.getSearchName(name);
+        var status = res == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+
+        return new ResponseEntity(res,status);
+    }
 
 }
