@@ -1,5 +1,6 @@
 package com.swidx.mapservice.controller;
 
+import com.swidx.mapservice.dto.InformationResponseDto;
 import com.swidx.mapservice.entity.InformationEntity;
 import com.swidx.mapservice.entity.TourInformationEntity;
 import com.swidx.mapservice.entity.UnionInterface;
@@ -33,16 +34,6 @@ public class MapServiceController {
         }
     }
 
-    @GetMapping("getRestInfo")
-    public Optional<InformationEntity> getRestInfo(@RequestParam("id") Integer id){
-        Optional<InformationEntity> res = informationService.getInformation(id);
-        if(!res.isEmpty()){
-            return res;
-        }else{
-            return null;
-        }
-    }
-
     @GetMapping("getTourInfo")
     public TourInformationEntity getTourInfo(@RequestParam("id") Integer id){
         //request id is contents id
@@ -55,11 +46,19 @@ public class MapServiceController {
     }
 
     @GetMapping("findByName")
-    public ResponseEntity<InformationEntity> findByName(@RequestParam("name") String name){
-        InformationEntity res = informationService.getSearchName(name);
+    public ResponseEntity<InformationResponseDto> findByName(@RequestParam("name") String name){
+        InformationResponseDto res = informationService.getSearchName(name);
         var status = res == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
 
         return new ResponseEntity(res,status);
     }
 
+    @GetMapping("getRestInfo")
+    public ResponseEntity<InformationResponseDto> findById(@RequestParam("id") int id){
+        InformationResponseDto res = informationService.getInformation(id);
+        var status = res == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+
+        return new ResponseEntity(res,status);
+
+    }
 }
