@@ -27,8 +27,8 @@ public class InformationServiceImpl implements InformationService{
 
     }
 
-    public Optional getInformation(Integer id){
-        Optional res = db.findById(id);
+    public Optional<InformationEntity> getInformation(Integer id){
+        Optional<InformationEntity> res = db.findById(id);
         return res;
     }
 

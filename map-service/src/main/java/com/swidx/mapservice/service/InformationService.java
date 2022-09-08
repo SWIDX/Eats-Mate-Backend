@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface InformationService {
     public List getLikeInformation(String text);
-    public Optional getInformation(Integer id);
+    public Optional<InformationEntity> getInformation(Integer id);
     public InformationEntity getSearchName(String text);
 }

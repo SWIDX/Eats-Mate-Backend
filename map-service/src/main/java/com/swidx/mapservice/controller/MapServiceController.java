@@ -34,8 +34,8 @@ public class MapServiceController {
     }
 
     @GetMapping("getRestInfo")
-    public Optional getRestInfo(@RequestParam("id") Integer id){
-        Optional res = informationService.getInformation(id);
+    public Optional<InformationEntity> getRestInfo(@RequestParam("id") Integer id){
+        Optional<InformationEntity> res = informationService.getInformation(id);
         if(!res.isEmpty()){
             return res;
         }else{
