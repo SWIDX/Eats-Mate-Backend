@@ -72,11 +72,31 @@ public class ReviewService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //read
-//    public ReviewResponseDto readOne(Long id){
-//        Review review = reviewRepository.findById(id).orElse(null);
-//        return new ReviewResponseDto(review);
-//    }
+    // mypage 전용
+    public ResponseEntity<List<ReviewResponseDto>> readAllUserReview(String accessToken) {
+        // feign client로 jwt 검증
+        String email = null;
+        try {
+            email = jwtClient.getUserEmail(accessToken);
+        } catch (FeignException e) {
+            System.out.println(accessToken);
+            System.out.println("*** ReviewService: JWT client failed ***");
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Review> reviewList = reviewRepository.findAllByEmail(email);
+        List<ReviewResponseDto> resList = new ArrayList<ReviewResponseDto>();
+
+        for (Review review : reviewList) {
+            // feign으로 리뷰 작성자 데이터 가져오기
+            FeignUserInfoResponseDto dto = userInfoClient.getUserNameAndProfileImgUrl(email);
+            resList.add(new ReviewResponseDto(dto.getUsername(), dto.getUserProfileImgUrl(), review));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(resList);
+    }
 
     // detail, review 전용 (main page용 아님)
     public ResponseEntity<List<ReviewResponseDto>> readMultiple(String placeName, Long amount){
@@ -104,15 +124,13 @@ public class ReviewService {
                 .body(resList);
     }
 
-    //update
-    public void update(Long id, ReviewUpdateRequestDto requestDto){
-        // feign으로 jwt 검증
-        String email = "";
-
-        Review review = reviewRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("*** ReviewService: 해당 리뷰 id가 존재하지 않습니다. ***")
-        );
-        review.update(email, requestDto);
+    //count
+    public List<Integer> countRate(String placeName){
+        List<Integer> rateList = new ArrayList<Integer>();
+        rateList.add(reviewRepository.countByPlaceNameAndRate(placeName, 0));
+        rateList.add(reviewRepository.countByPlaceNameAndRate(placeName, 1));
+        rateList.add(reviewRepository.countByPlaceNameAndRate(placeName, 2));
+        return rateList;
     }
 
     //delete

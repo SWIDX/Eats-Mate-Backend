@@ -32,20 +32,30 @@ public class ReviewApiController {
     }
 
     //read
-    @GetMapping("/review/{placeName}/{amount}") // -1 for all, 2 for top 2
-    public ResponseEntity<List<ReviewResponseDto>> readMultiple(@PathVariable String placeName, @PathVariable Long amount){
+    @GetMapping("/review") // -1 for all, 2 for top 2
+    public ResponseEntity<List<ReviewResponseDto>> readMultiple(
+            @RequestParam("place_name") String placeName, @RequestParam("amount") Long amount){
         return reviewService.readMultiple(placeName, amount);
     }
 
-    //update
-    @PutMapping("/review/{id}")
-    public void updateReview(@PathVariable Long id, @RequestBody ReviewUpdateRequestDto requestDto){
-        reviewService.update(id, requestDto);
+    //read
+    @GetMapping("/review/user")
+    public ResponseEntity<List<ReviewResponseDto>> readAllUserReview(
+            @RequestHeader("Authorization") String authorization){
+        String accessToken = authorization.replace("Bearer ", "");
+        return reviewService.readAllUserReview(accessToken);
+    }
+
+    //count
+    @GetMapping("/review/count")
+    public List<Integer> updateReview(@RequestParam("place_name") String placeName){
+        return reviewService.countRate(placeName);
     }
 
     //delete
     @DeleteMapping("review/{id}")
     public ResponseEntity deleteReview(@PathVariable Long id){
+        // jwt 검증 로직 추가 필요
         reviewService.delete(id);
         return ResponseEntity.noContent().build();
     }
