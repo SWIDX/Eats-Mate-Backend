@@ -1,10 +1,15 @@
 package com.swidx.userservice.controller;
 
 // import com.swidx.userservice.feign.client.FeignJwtValidationService;
+import com.swidx.userservice.dto.LikeAllResponseDto;
 import com.swidx.userservice.service.LikeService;
 import com.swidx.userservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +31,20 @@ public class LikeController {
 
         String email = jwtUtil.getTokenOwner(accessToken);
         return likeService.checkUserLike(email, placeId);
+    }
+
+    @GetMapping("/like/all")
+    public ResponseEntity<List<LikeAllResponseDto>> getUserLike(@RequestHeader("Authorization") String authorization) {
+        String accessToken = authorization.replace("Bearer ", "");
+
+        // if (!feignJwtValidationService.check(accessToken)) {
+        if (!jwtUtil.validateToken(accessToken)) {
+            System.out.println("*** LikeController: JWT Check Fail ***");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        String email = jwtUtil.getTokenOwner(accessToken);
+        return likeService.getUserLike(email);
     }
 
     @PutMapping("/like/{place_id}")
