@@ -1,10 +1,8 @@
 package com.swidx.reviewservice.service;
 
-import com.swidx.reviewservice.controller.dto.FeignUserInfoResponseDto;
-import com.swidx.reviewservice.controller.dto.ReviewResponseDto;
-import com.swidx.reviewservice.controller.dto.ReviewSaveRequestDto;
-import com.swidx.reviewservice.controller.dto.ReviewUpdateRequestDto;
+import com.swidx.reviewservice.controller.dto.*;
 import com.swidx.reviewservice.domain.Review;
+import com.swidx.reviewservice.feign.client.GetRestInfoClient;
 import com.swidx.reviewservice.feign.client.JwtValidationClient;
 import com.swidx.reviewservice.feign.client.ReviewUserInfoClient;
 import com.swidx.reviewservice.image.S3Uploader;
@@ -30,6 +28,7 @@ public class ReviewService {
     private final ReviewUserInfoClient userInfoClient;
     private final ReviewRepository reviewRepository;
     private final S3Uploader s3Uploader;
+    private final GetRestInfoClient getRestInfoClient;
 
     //crud
 
@@ -70,6 +69,24 @@ public class ReviewService {
         Review review = ReviewSaveRequestDto.toEntity(email, fileUrlList, requestDto);
         reviewRepository.save(review);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // mainpage 전용
+    public List<RecentReviewResponseDto> readThreeRecentReview() {
+        List<String> nameList = new ArrayList<>();
+        nameList.add(reviewRepository.getRecentPlaceNameof("강남구"));
+        nameList.add(reviewRepository.getRecentPlaceNameof("광진구"));
+        nameList.add(reviewRepository.getRecentPlaceNameof("서대문구"));
+        nameList.add(reviewRepository.getRecentPlaceNameof("용산구"));
+        nameList.add(reviewRepository.getRecentPlaceNameof("마포구"));
+
+        List<RecentReviewResponseDto> res = new ArrayList<RecentReviewResponseDto>();
+        for (String name : nameList) {
+            FeignRestInformationDto rinfo = getRestInfoClient.getRestInfo(name);
+            List<Review> reviewList = reviewRepository.findTop3ByPlaceNameOrderByCreatedByDesc(name);
+            res.add(new RecentReviewResponseDto(rinfo, reviewList));
+        }
+        return res;
     }
 
     // mypage 전용

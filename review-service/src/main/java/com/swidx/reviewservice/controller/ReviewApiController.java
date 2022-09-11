@@ -1,13 +1,11 @@
 package com.swidx.reviewservice.controller;
 
 
+import com.swidx.reviewservice.controller.dto.RecentReviewResponseDto;
 import com.swidx.reviewservice.controller.dto.ReviewResponseDto;
 import com.swidx.reviewservice.controller.dto.ReviewSaveRequestDto;
-import com.swidx.reviewservice.controller.dto.ReviewUpdateRequestDto;
-import com.swidx.reviewservice.domain.Review;
 import com.swidx.reviewservice.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +42,12 @@ public class ReviewApiController {
             @RequestHeader("Authorization") String authorization){
         String accessToken = authorization.replace("Bearer ", "");
         return reviewService.readAllUserReview(accessToken);
+    }
+
+    //read
+    @GetMapping("/review/recent")
+    public List<RecentReviewResponseDto> readRecentReview(){
+        return reviewService.readThreeRecentReview();
     }
 
     //count
