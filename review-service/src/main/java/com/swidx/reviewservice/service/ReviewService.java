@@ -116,11 +116,16 @@ public class ReviewService {
     }
 
     // detail, review 전용 (main page용 아님)
-    public ResponseEntity<List<ReviewResponseDto>> readMultiple(String placeName, Long amount){
+    public ResponseEntity<List<ReviewResponseDto>> readMultiple(String placeName, Long amount, Boolean recommend){
         List<Review> reviewList = new ArrayList<Review>();
 
         if (amount == 0) {
-            reviewList = reviewRepository.findByPlaceNameOrderByCreatedByDesc(placeName);
+            if (recommend) {
+                reviewList = reviewRepository.findByPlaceNameOrderByRecommendDesc(placeName);
+            }
+            else {
+                reviewList = reviewRepository.findByPlaceNameOrderByCreatedByDesc(placeName);
+            }
         }
         else if (amount == 2) {
             reviewList = reviewRepository.findTop2ByPlaceNameOrderByCreatedByDesc(placeName);

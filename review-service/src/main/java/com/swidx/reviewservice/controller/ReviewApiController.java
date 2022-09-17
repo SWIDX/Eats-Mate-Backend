@@ -32,8 +32,10 @@ public class ReviewApiController {
     //read
     @GetMapping("/review") // -1 for all, 2 for top 2
     public ResponseEntity<List<ReviewResponseDto>> readMultiple(
-            @RequestParam("place_name") String placeName, @RequestParam("amount") Long amount){
-        return reviewService.readMultiple(placeName, amount);
+            @RequestParam("place_name") String placeName,
+            @RequestParam("amount") Long amount,
+            @RequestParam(value="recommend", required=false, defaultValue="false") Boolean recommend){
+        return reviewService.readMultiple(placeName, amount, recommend);
     }
 
     //read
