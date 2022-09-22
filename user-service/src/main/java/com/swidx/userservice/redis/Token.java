@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 // import javax.persistence.Id;
 
 @Getter
-@RedisHash(value = "refreshToken", timeToLive = 180L) // 180L == 180s for testing
+@RedisHash(value = "refreshToken", timeToLive = 21600L) // 180L == 180s for testing
 public class Token {
     @Id
     private String refreshToken;
