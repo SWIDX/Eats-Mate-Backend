@@ -35,7 +35,7 @@ public class ReissueService {
         );
 
         String newAccessToken = jwtUtil.generateAccessToken(email, 1000L * 60 * 30); // 30 min
-        String newRefreshToken = jwtUtil.generateRefreshToken(1000L * 60 * 60 * 1); // 6 hr
+        String newRefreshToken = jwtUtil.generateRefreshToken(1000L * 60 * 60 * 6); // 6 hr
 
         // redis 업데이트
         redis.deleteById(rt); // invalidate previous token
