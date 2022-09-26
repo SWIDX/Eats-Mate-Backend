@@ -30,7 +30,7 @@ spring:
       globalcors: # DO NOT USE WebMvcConfig since it's not compatible
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOriginPatterns: "*"
             allow-credentials: true # Allow cookies inside a request header
             allowedHeaders:
               - x-requested-with
