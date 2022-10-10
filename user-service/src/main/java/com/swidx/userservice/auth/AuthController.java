@@ -2,7 +2,6 @@ package com.swidx.userservice.auth;
 
 import com.swidx.userservice.dto.KakaoUserDto;
 import com.swidx.userservice.dto.LoginResponseDto;
-import com.swidx.userservice.dto.ReissueResponseDto;
 import com.swidx.userservice.pojo.AccessToken;
 import com.swidx.userservice.service.LoginService;
 import com.swidx.userservice.service.ReissueService;
@@ -35,7 +34,7 @@ public class AuthController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<ReissueResponseDto> reissueJWT(@CookieValue("refreshToken") String refreshToken) {
+    public ResponseEntity<LoginResponseDto> reissueJWT(@CookieValue("refreshToken") String refreshToken) {
         return reissueService.reissueJWT(refreshToken);
     }
 

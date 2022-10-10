@@ -1,10 +1,12 @@
 package com.swidx.userservice.domain.like;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.UUID;
 
+@Getter
 @NoArgsConstructor
 @Table(name = "user_like")
 @Entity

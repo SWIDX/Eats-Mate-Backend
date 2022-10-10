@@ -43,6 +43,9 @@ public class InformationEntity {
     @Column
     private String usage_of_week_and_time;
 
+    @Column
+    private String image;
+
 
 
     public InformationEntity(String name,String gubun,String address,BigDecimal lat,

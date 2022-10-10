@@ -1,27 +1,34 @@
 package com.swidx.reviewservice.controller.dto;
 
 import com.swidx.reviewservice.domain.Review;
+import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Getter
 public class ReviewResponseDto {
-    final Long id;
-    final String placeName;
-    final String email;
-    final String content;
-    final String category;
-    final String createdBy;
-    final String image;
-    final Integer rate;
-    final Integer recommend;
+    private Long id;
+    private String username;
+    private String userProfileImgUrl;
+    private String placeName;
+    private String category;
+    private String content;
+    private List<String> images;
+    private String createdBy;
+    private Integer rate;
+    private Integer recommend;
     
 
-    public ReviewResponseDto(Review entity){
+    public ReviewResponseDto(String username, String userProfileImgUrl, Review entity){
         this.id = entity.getId();
+        this.username = username;
+        this.userProfileImgUrl = userProfileImgUrl;
         this.placeName = entity.getPlaceName();
-        this.email = entity.getEmail();
-        this.content = entity.getContent();
         this.category = entity.getCategory();
+        this.content = entity.getContent();
+        this.images = Arrays.asList(entity.getImage().split("\\s*,\\s*"));
         this.createdBy = entity.getCreatedBy();
-        this.image = entity.getImage();
         this.rate = entity.getRate();
         this.recommend = entity.getRecommend();
 

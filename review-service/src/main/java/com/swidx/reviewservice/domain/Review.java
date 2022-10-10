@@ -16,8 +16,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //글 순서
 
-    @Column
+    @Column // not null 처리하기
     private String placeName;
+
+    @Column
+    private String gugun;
 
     @Column
     private String email;
@@ -44,6 +47,7 @@ public class Review {
     @Builder
     public Review(
             String placeName,
+            String gugun,
             String email,
             String content,
             String category,
@@ -53,6 +57,7 @@ public class Review {
             Integer recommend
     ){
         this.placeName = placeName;
+        this.gugun = gugun;
         this.email = email;
         this.content = content;
         this.category = category;

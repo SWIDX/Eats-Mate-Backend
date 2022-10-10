@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.swidx'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-beta.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -29,7 +29,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation('mysql:mysql-connector-java')
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.hibernate:hibernate-core')
     implementation('org.hibernate:hibernate-spatial')

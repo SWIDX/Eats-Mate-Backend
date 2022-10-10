@@ -48,10 +48,16 @@ public class TourInformationEntity implements Serializable {
     @Column(precision = 17,scale = 14)
     private BigDecimal lng;
 
+    @Column
+    private String overview;
+
+    @Column
+    private String homepage;
+
 
     public TourInformationEntity(TourId tourId,String name,String gubun,
                                  Integer read_count,BigDecimal lat,BigDecimal lng,String cntct,
-                                 String update_time,String address,String represent_image,String thumbnail_image){
+                                 String update_time,String address,String represent_image,String thumbnail_image,String overview,String homepage){
         this.tourId = tourId;
         this.name = name;
         this.gubun = gubun;
@@ -63,6 +69,8 @@ public class TourInformationEntity implements Serializable {
         this.address = address;
         this.represent_image = represent_image;
         this.thumbnail_image = thumbnail_image;
+        this.overview = overview;
+        this.homepage = homepage;
 
     }
 
