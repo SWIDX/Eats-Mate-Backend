@@ -40,6 +40,7 @@ public class LoginService {
         redis.save(new Token(refreshToken, email)); // String -> Token Entity
 
         // 신규: mariadb 등록
+        firstRegister = false;
         User entity = db.findById(email).orElseGet( // orElse()는 empty 여부 관계 없이 인자 내 함수를 실행하므로 orElseGet() 사용
                 () -> addUserdata(userinfo)
         );
