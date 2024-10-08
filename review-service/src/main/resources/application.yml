@@ -24,7 +24,7 @@ spring:
     name: review-service
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: # RDS USERNAME
     password: # RDS PASSWORD
     url: # RDS ENDPOINT
